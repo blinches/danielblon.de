@@ -1,0 +1,123 @@
+/* Stay With Me landing page: one frame of the film.
+   The stage is the film's 360 x 640 grid. Every piece carries its place in stage pixels (--x --y --w --h,
+   set in index.html) and --u is the one number that scales all of it, picture and art alike.
+   Nearest-neighbour only. No rounded corners, shadows, gradients, fades or easing. */
+
+:root {
+  --ink: #1a1c2c; --cream: #ffcd75; --white: #f4f4f4; --lgrey: #94b0c2;
+  /* Phone: full width. The stage may run up to 32 stage px past the bottom of a short screen
+     (the buttons end at 606 of 640), never more. */
+  --u: min(100vw / 360, 100vh / 608);
+}
+@supports (height: 100svh) {
+  :root { --u: min(100vw / 360, 100svh / 608); }
+}
+/* Desktop and anything lying on its side: full height less the 44 px link row, centred. */
+@media (min-width: 700px), (orientation: landscape) {
+  :root { --u: min(100vw / 360, (100vh - 44px) / 640); }
+}
+@supports (height: 100dvh) {
+  @media (min-width: 700px), (orientation: landscape) {
+    :root { --u: min(100vw / 360, (100dvh - 44px) / 640); }
+  }
+}
+
+html { background: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--ink); display: flex; flex-direction: column; align-items: center; }
+
+.stage {
+  position: relative; flex: none; overflow: hidden;
+  width: calc(360 * var(--u)); height: calc(640 * var(--u));
+  background: var(--ink);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+}
+.stage *, .stage *::before, .stage *::after { box-sizing: border-box; }
+.stage [hidden] { display: none !important; }
+
+.stage img, .stage video {
+  image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; image-rendering: pixelated;
+  -webkit-user-drag: none; -webkit-touch-callout: none;
+}
+
+/* ---------------------------------------------------------------- the picture */
+.film { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.pic { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; object-fit: fill; z-index: 1; }
+img.pic { z-index: 0; }
+video.pic.is-top { z-index: 2; }
+
+/* ---------------------------------------------------------------- a placed piece of art */
+.p {
+  position: absolute; z-index: 3; display: block; margin: 0;
+  left: calc(var(--x) * var(--u));
+  top: calc((var(--y) + var(--shift, 0)) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+}
+.p > img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; pointer-events: none;
+           color: var(--white); font: 900 12px/1.2 "Arial Black", "Arial Bold", Arial, sans-serif; }
+
+/* real text for screen readers, out of sight */
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+      overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---------------------------------------------------------------- buttons: resting art and picked art */
+.btn { padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit;
+       cursor: pointer; text-decoration: none; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+.btn:disabled { cursor: default; }
+.btn:focus, .btn:focus-visible { outline: none; } /* the arrow moves to the focused choice: that is the focus mark */
+.btn > .s, .field > .s { display: none; }
+.btn.is-on > .s, .field.is-on > .s { display: block; }
+.btn.is-on > .n, .field.is-on > .n { display: none; }
+
+/* the film's cursor: steps 3 px side to side about 1.4 times a second */
+.arrow { z-index: 4; pointer-events: none; animation: swm-arrow 0.714s step-end infinite; }
+@keyframes swm-arrow {
+  0%    { transform: translateX(calc(-1 * var(--u))); }
+  12.5% { transform: translateX(0); }
+  25%   { transform: translateX(var(--u)); }
+  37.5% { transform: translateX(calc(2 * var(--u))); }
+  62.5% { transform: translateX(var(--u)); }
+  75%   { transform: translateX(0); }
+  87.5% { transform: translateX(calc(-1 * var(--u))); }
+}
+
+/* ---------------------------------------------------------------- the box, when a line has no art */
+.box-text {
+  position: absolute; left: calc(14 * var(--u)); right: calc(12 * var(--u)); top: calc(17 * var(--u));
+  margin: 0; color: var(--white); white-space: nowrap; overflow: hidden;
+  font: 900 calc(15 * var(--u)) / calc(18 * var(--u)) "Arial Black", "Arial Bold", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: none; font-smooth: never;
+}
+
+/* ---------------------------------------------------------------- the email field: kit frame, real input inside */
+.field > input {
+  position: absolute; left: calc(6 * var(--u)); top: calc(6 * var(--u));
+  width: calc(334 * var(--u)); height: calc(36 * var(--u));
+  margin: 0; padding: 0 calc(8 * var(--u)); border: 0; border-radius: 0; outline: none;
+  background: transparent; color: var(--white); caret-color: var(--cream);
+  /* 15 stage px matches the kit's lettering; never under 16 px or an iPhone zooms the page on focus */
+  font: 900 max(16px, calc(15 * var(--u))) / 1.2 "Arial Black", "Arial Bold", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0; -webkit-font-smoothing: none; font-smooth: never;
+  -webkit-appearance: none; appearance: none; -webkit-user-select: text; user-select: text;
+}
+.field > input::placeholder { color: var(--lgrey); opacity: 1; }
+.field > input:-webkit-autofill { -webkit-text-fill-color: var(--white); box-shadow: none; transition: background-color 99999s step-end; }
+
+/* On a phone the email step sits in the top of the stage, clear of the on-screen keyboard;
+   title, artist and date step aside while it is there. */
+.stage.is-up .e { --shift: -404; }
+.stage.is-up .up-off { display: none; }
+
+/* ---------------------------------------------------------------- the two small links, under the stage */
+.links { flex: none; display: flex; justify-content: center; gap: 28px; width: 100%; height: 44px; background: var(--ink); }
+.links a { display: flex; align-items: center; height: 44px; padding: 0 8px; color: var(--lgrey); text-decoration: none;
+           font: 700 12px/1 "Helvetica Neue", Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.links a:hover { color: var(--white); }
+.links a:focus-visible { outline: 2px solid var(--white); outline-offset: -6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  video.pic { display: none; }
+  .arrow { animation: none; }
+}

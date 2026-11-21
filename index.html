@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-mode="pre">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stay With Me - Daniel Blonde</title>
+  <meta name="description" content="Stay With Me, the new single by Daniel Blonde. Out December 11, 2026. Pre-save it on Spotify.">
+  <meta name="theme-color" content="#1a1c2c">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Share cards. Before going live, turn the two image paths (and og:url) into full https:// addresses: see NOTES.md. -->
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="Daniel Blonde">
+  <meta property="og:url" content="https://danielblon.de/">
+  <meta property="og:title" content="Stay With Me - Daniel Blonde">
+  <meta property="og:description" content="The new single. Out December 11, 2026.">
+  <meta property="og:image" content="https://danielblon.de/assets/og-1200x630.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Stay With Me cover art: two hands reaching for a floating gold key in a violet room with clouds.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stay With Me - Daniel Blonde">
+  <meta name="twitter:description" content="The new single. Out December 11, 2026.">
+  <meta name="twitter:image" content="https://danielblon.de/assets/og-1200x630.jpg">
+  <meta name="twitter:image:alt" content="Stay With Me cover art: two hands reaching for a floating gold key in a violet room with clouds.">
+
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preload" as="image" href="assets/loops/loop_1_asleep_poster.jpg">
+  <link rel="stylesheet" href="style.css">
+  <!-- Without JavaScript the email choice cannot work, so only the Spotify button is shown. -->
+  <noscript><style>.needs-js { display: none !important; }</style></noscript>
+</head>
+<body>
+
+<!-- One 360 x 640 stage, the film's own grid. Every piece below carries its place in stage pixels
+     (x, y, width, height of the art file, as in the kit README); style.css multiplies them all by one number. -->
+<main class="stage" id="stage">
+
+  <!-- The picture: the first frame of loop 1, and loop 1 moving on top of it. site.js adds the other loops. -->
+  <div class="film" id="film" aria-hidden="true">
+    <img class="pic" id="poster" src="assets/loops/loop_1_asleep_poster.jpg" width="360" height="640" alt="">
+    <video class="pic is-top" id="loop" poster="assets/loops/loop_1_asleep_poster.jpg" width="360" height="640"
+           muted loop playsinline webkit-playsinline autoplay preload="auto"
+           disablepictureinpicture disableremoteplayback tabindex="-1">
+      <source src="assets/loops/loop_1_asleep.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
+    </video>
+  </div>
+
+  <!-- The same words as the art, as real text for screen readers. -->
+  <h1 class="vh">Stay With Me</h1>
+  <p class="vh">Daniel Blonde</p>
+  <p class="vh" id="sr-when">New song. Out December 11, 2026.</p>
+  <p class="vh" id="say" role="status" aria-live="polite">stay with me. new song, december 11.</p>
+
+  <div class="p up-off" id="tag" data-in="main email" style="--x:272;--y:14;--w:76;--h:27"><img id="tag-art" src="assets/art/tag_dec11.png" alt="DEC 11" aria-hidden="true"></div>
+  <div class="p up-off" data-in="main email" style="--x:70;--y:22;--w:220;--h:93"><img src="assets/art/title.png" alt="STAY WITH ME" aria-hidden="true"></div>
+  <div class="p up-off" data-in="main email" style="--x:92;--y:118;--w:175;--h:22"><img src="assets/art/artist.png" alt="DANIEL BLONDE" aria-hidden="true"></div>
+
+  <div class="p box" id="line" data-in="main" style="--x:7;--y:412;--w:346;--h:72"><img id="line-art" src="assets/art/line_1_in_box.png" alt="stay with me. new song, december 11." aria-hidden="true"><p class="box-text" id="line-text" aria-hidden="true" hidden></p></div>
+
+  <!-- The menu: the arrow sits on the first choice. -->
+  <div class="menu" id="menu">
+    <a class="p btn choice" id="follow-link" data-in="main" style="--x:20;--y:490;--w:320;--h:58" rel="noopener" aria-label="Pre-save on Spotify"
+       href="https://ffm.to/danielblonde-staywithme"><img class="n" src="assets/art/presave_spotify_normal.png" alt="PRE-SAVE ON SPOTIFY"><img class="s" src="assets/art/presave_spotify_selected.png" alt="" aria-hidden="true"></a>
+    <button class="p btn choice needs-js" id="email-open" type="button" data-in="main" style="--x:20;--y:552;--w:320;--h:58" aria-label="Email me when it's out"><img class="n" src="assets/art/email_when_out_1line_normal.png" alt="EMAIL ME WHEN IT'S OUT"><img class="s" src="assets/art/email_when_out_1line_selected.png" alt="" aria-hidden="true"></button>
+    <img class="p arrow" id="menu-arrow" data-in="main" style="--x:2;--y:507;--w:20;--h:24" src="assets/art/arrow.png" alt="" aria-hidden="true">
+  </div>
+
+  <!-- The email step, in place of the two buttons. The typed email is the only web-drawn text on the stage. -->
+  <form class="signup" id="signup" novalidate hidden>
+    <div class="p e box" id="eline" data-in="email" style="--x:7;--y:412;--w:346;--h:72"><img id="eline-art" src="assets/art/line_2_in_box.png" alt="one email on december 11. nothing else." aria-hidden="true"><p class="box-text" id="eline-text" aria-hidden="true" hidden></p></div>
+    <label class="vh" for="email">Your email</label>
+    <div class="p e field" id="field" data-in="email" style="--x:7;--y:482;--w:346;--h:48"><img class="n" src="assets/art/input_empty.png" alt="" aria-hidden="true"><img class="s" src="assets/art/input_focus.png" alt="" aria-hidden="true"><input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="your email" maxlength="254" required aria-describedby="say"></div>
+    <div class="hp" aria-hidden="true">
+      <label for="hp-field">Leave this box empty</label>
+      <input id="hp-field" name="hp_field" type="text" tabindex="-1" autocomplete="off">
+    </div>
+    <button class="p e btn choice" id="signup-btn" type="submit" data-in="email" style="--x:62;--y:528;--w:236;--h:58" aria-label="Sign up"><img class="n" src="assets/art/sign_up_normal.png" alt="SIGN UP"><img class="s" src="assets/art/sign_up_selected.png" alt="" aria-hidden="true"></button>
+    <button class="p e btn choice" id="email-back" type="button" data-in="email" style="--x:62;--y:582;--w:236;--h:58" aria-label="Back"><img class="n" src="assets/art/back_normal.png" alt="BACK"><img class="s" src="assets/art/back_selected.png" alt="" aria-hidden="true"></button>
+    <img class="p e arrow" id="form-arrow" data-in="email" style="--x:44;--y:545;--w:20;--h:24" src="assets/art/arrow.png" alt="" aria-hidden="true">
+  </form>
+
+</main>
+
+<footer class="links">
+  <a id="ig-link" rel="noopener" href="https://www.instagram.com/danielblonde/">Instagram</a>
+  <a id="tt-link" rel="noopener" href="https://www.tiktok.com/@danielblondemusic">TikTok</a>
+</footer>
+
+<script src="config.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
